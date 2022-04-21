@@ -1,0 +1,11 @@
+numpy
+h5py
+unyt
+velociraptor
+scipy
+matplotlib
+py-sphviewer
+swiftsimio
+astropy
+jinja2
+tqdm
