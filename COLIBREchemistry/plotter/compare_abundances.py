@@ -1,7 +1,7 @@
 import matplotlib.pylab as plt
 from matplotlib.pylab import rcParams
 import numpy as np
-from .loadObservationalData import plot_GALAH_data, plot_MW_data, plot_StrontiumObsData
+from .loadObservationalData import plot_GALAH_data, plot_MW_data, plot_StrontiumObsData, plot_APOGEE_data
 from .plot_mass_metallicity import plot_Kirby_data, plot_Kirby_analysed, \
     plot_gallazzi, plot_gallazzi_2005, plot_Kudritzki_2016, plot_Zahid_2017
 
@@ -82,6 +82,34 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
                columnspacing=0.02)
     plt.savefig(f"{output_path}/O_Fe_comparison.png", dpi=200)
 
+    ##################
+    fig = plt.figure()
+
+    # Box stellar abundance --------------------------------
+    ax = plt.subplot(1, 1, 1)
+    plt.grid("True")
+
+    plot_MW_data('O')
+    plot_APOGEE_data('O')
+
+    count = 0
+    color = ['tab:blue','tab:green','tab:orange','crimson','tab:purple']
+    for i in range(len(output_name_list)):
+        xm = Fe_H_all[count:count+counter[i]]
+        ym = O_Fe_all[count:count+counter[i]]
+        count += counter[i]
+
+        if i==0 :plt.plot(xm, ym, '-', lw=0.5, color='blue', label='APOGEE data')
+        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i])
+
+    plt.text(-3.8, 1.3, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[O/Fe]", labelpad=2)
+    plt.axis([-4, 1, -1, 1.5])
+    plt.legend(loc=[0.0, 0.02], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
+               columnspacing=0.02)
+    plt.savefig(f"{output_path}/O_Fe_comparison_2.png", dpi=200)
+
     ########################
     fig = plt.figure()
     ax = plt.subplot(1, 1, 1)
@@ -106,6 +134,31 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
     plt.legend(loc=[0, 0.02], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
                columnspacing=0.02)
     plt.savefig(f"{output_path}/Mg_Fe_comparison.png", dpi=200)
+
+    ########################
+    fig = plt.figure()
+    ax = plt.subplot(1, 1, 1)
+    plt.grid("True")
+
+    plot_MW_data('Mg')
+    plot_APOGEE_data('MG')
+
+    count = 0
+    for i in range(len(output_name_list)):
+        xm = Fe_H_all[count:count + counter[i]]
+        ym = Mg_Fe_all[count:count + counter[i]]
+        count += counter[i]
+
+        if i == 0: plt.plot(xm, ym, '-', lw=0.5, color='blue', label='APOGEE data')
+        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i])
+
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[Mg/Fe]", labelpad=2)
+    plt.text(-3.8, 1.2, "MW-type galaxies")
+    plt.axis([-4, 1, -2, 1.5])
+    plt.legend(loc=[0, 0.02], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
+               columnspacing=0.02)
+    plt.savefig(f"{output_path}/Mg_Fe_comparison_2.png", dpi=200)
 
     ########################
     # Load data:
@@ -145,6 +198,30 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
         plt.tight_layout()
         plt.savefig(f"{output_path}/{el}_Fe_comparison.png", dpi=200)
 
+    #######
+    fig = plt.figure(figsize=(3.8, 3))
+    ax = plt.subplot(1, 1, 1)
+    plt.grid("True")
+
+    count = 0
+    for i in range(len(output_name_list)):
+        xm = Fe_H_all[count:count + counter[i]]
+        ym = C_Fe_all[count:count + counter[i]]
+        count += counter[i]
+
+        if i == 0: plt.plot(xm, ym, '-', lw=0.5, color='blue', label='APOGEE data')
+        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i])
+
+    plot_APOGEE_data('C')
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel(f"[{el}/Fe]", labelpad=2)
+    plt.text(-3.8, 1.2, "MW-type galaxies")
+    plt.axis([-4, 1, -2, 1.5])
+    plt.legend(loc=[0, 0.02], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
+               columnspacing=0.02)
+    plt.tight_layout()
+    plt.savefig(f"{output_path}/C_Fe_comparison_2.png", dpi=200)
+
     for el in ['N', 'Ne']:
         fig = plt.figure(figsize=(3.8, 3))
         ax = plt.subplot(1, 1, 1)
@@ -156,8 +233,10 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
             if el == 'N': ym = N_Fe_all[count:count + counter[i]]
             if el == 'Ne': ym = Ne_Fe_all[count:count + counter[i]]
             count += counter[i]
+            if (i == 0) & (el == 'N'): plt.plot(xm, ym, '-', lw=0.5, color='blue', label='APOGEE data')
             plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i])
 
+        if el == 'N': plot_APOGEE_data('N')
         plt.xlabel("[Fe/H]", labelpad=2)
         plt.ylabel(f"[{el}/Fe]", labelpad=2)
         plt.text(-3.8, 1.2, "MW-type galaxies")
