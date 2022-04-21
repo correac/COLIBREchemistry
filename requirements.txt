@@ -4,7 +4,6 @@ unyt
 velociraptor
 scipy
 matplotlib
-py-sphviewer
 swiftsimio
 astropy
 jinja2
