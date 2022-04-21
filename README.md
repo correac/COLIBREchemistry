@@ -1,7 +1,7 @@
 COLIBREchemistry
 =========
 
-A python package that stellar abundance plots to analyse the COLIBRE simulations.
+A python package that makes stellar abundance plots to analyse the COLIBRE simulations.
 
 Requirements
 ----------------
