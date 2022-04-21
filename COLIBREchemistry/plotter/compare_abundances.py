@@ -89,7 +89,6 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
     ax = plt.subplot(1, 1, 1)
     plt.grid("True")
 
-    plot_MW_data('O')
     plot_APOGEE_data('O')
 
     count = 0
@@ -100,7 +99,7 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
         count += counter[i]
 
         if i==0 :plt.plot(xm, ym, '-', lw=0.5, color='blue', label='APOGEE data')
-        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i])
+        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i], zorder=200)
 
     plt.text(-3.8, 1.3, "MW-type galaxies")
     plt.xlabel("[Fe/H]", labelpad=2)
@@ -140,7 +139,6 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
     ax = plt.subplot(1, 1, 1)
     plt.grid("True")
 
-    plot_MW_data('Mg')
     plot_APOGEE_data('MG')
 
     count = 0
@@ -150,7 +148,7 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
         count += counter[i]
 
         if i == 0: plt.plot(xm, ym, '-', lw=0.5, color='blue', label='APOGEE data')
-        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i])
+        plt.plot(xm, ym, '-', lw=1.5, color=color[i], label=output_name_list[i], zorder=200)
 
     plt.xlabel("[Fe/H]", labelpad=2)
     plt.ylabel("[Mg/Fe]", labelpad=2)
@@ -214,7 +212,7 @@ def compare_stellar_abundances(sims_data, output_name_list, output_path):
 
     plot_APOGEE_data('C')
     plt.xlabel("[Fe/H]", labelpad=2)
-    plt.ylabel(f"[{el}/Fe]", labelpad=2)
+    plt.ylabel("[C/Fe]", labelpad=2)
     plt.text(-3.8, 1.2, "MW-type galaxies")
     plt.axis([-4, 1, -2, 1.5])
     plt.legend(loc=[0, 0.02], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
