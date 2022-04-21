@@ -40,6 +40,12 @@ def loadAbundancePlots(
         id = abs(hash("Carbon comparison %i" % i))
         PlotsInWeb.load_plots(title, caption, filename, id)
 
+        title = "Comparison"
+        caption = "Comparison between the [C/Fe]-[Fe/H] median relations from each simulation listed in this catalogue."
+        filename = "C_Fe_comparison_2.png"
+        id = abs(hash("Carbon comparison 2 %i" % i))
+        PlotsInWeb.load_plots(title, caption, filename, id)
+
 
     title = "Carbon"
     id = abs(hash("Carbon section"))
@@ -104,6 +110,12 @@ def loadAbundancePlots(
         id = abs(hash("Oxygen comparison %i" % i))
         PlotsInWeb.load_plots(title, caption, filename, id)
 
+        title = "Comparison"
+        caption = "Comparison between the [O/Fe]-[Fe/H] median relations from each simulation listed in this catalogue."
+        filename = "O_Fe_comparison_2.png"
+        id = abs(hash("Oxygen comparison 2 %i" % i))
+        PlotsInWeb.load_plots(title, caption, filename, id)
+
     title = "Oxygen"
     id = abs(hash("Oxygen section"))
     plots = PlotsInWeb.plots_details
@@ -163,6 +175,12 @@ def loadAbundancePlots(
         caption = "Comparison between the [Mg/Fe]-[Fe/H] median relations from each simulation listed in this catalogue."
         filename = "Mg_Fe_comparison.png"
         id = abs(hash("Magnesium comparison %i" % i))
+        PlotsInWeb.load_plots(title, caption, filename, id)
+
+        title = "Comparison"
+        caption = "Comparison between the [Mg/Fe]-[Fe/H] median relations from each simulation listed in this catalogue."
+        filename = "Mg_Fe_comparison_2.png"
+        id = abs(hash("Magnesium comparison 2 %i" % i))
         PlotsInWeb.load_plots(title, caption, filename, id)
 
     title = "Magnesium"
