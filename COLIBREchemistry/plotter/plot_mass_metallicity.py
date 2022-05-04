@@ -706,7 +706,7 @@ def plot_Kirby_data():
     plt.errorbar(M_star, Z_star, yerr= y_scatter, xerr=x_scatter, fmt='',
                  ls='none',color='lightgreen',lw=1,ms=1,label='Kirby et al. (2013)')
 
-def plot_gallazzi():
+def plot_gallazzi(element):
     # Cosmology
     h_sim = 0.6777
     h_obs = 0.704  # WMAP7
@@ -726,22 +726,29 @@ def plot_gallazzi():
 
     O_over_H_Grevesse93 = 8.83  # Grevesse & Sauval
     Fe_over_H_Grevesse93 = 7.5  # Grevesse & Sauval
+    Mg_over_H_Grevesse93 = 7.58
 
-    O_over_H_Andres89 = 8.93
-    Fe_over_H_Andres89 = 7.51
+    #O_over_H_Andres89 = 8.93
+    #Fe_over_H_Andres89 = 7.51
+    #O_over_Fe_solar_Andres89 = O_over_H_Andres89 - Fe_over_H_Andres89
 
     O_over_H_Asplund09 = 8.69
     Fe_over_H_Asplund09 = 7.50
+    Mg_over_H_Asplund09 = 7.6
 
     O_over_Fe_solar_Grevesse93 = O_over_H_Grevesse93 - Fe_over_H_Grevesse93
-    O_over_Fe_solar_Andres89 = O_over_H_Andres89 - Fe_over_H_Andres89
+    Mg_over_Fe_solar_Grevesse93 = Mg_over_H_Grevesse93 - Fe_over_H_Grevesse93
     O_over_Fe_solar_Asplund09 = O_over_H_Asplund09 - Fe_over_H_Asplund09
+    Mg_over_Fe_solar_Asplund09 = Mg_over_H_Asplund09 - Fe_over_H_Asplund09
 
-    correction_Sun_O_over_Fe = O_over_Fe_solar_Grevesse93 - O_over_Fe_solar_Asplund09
+    if element == 'O':
+        correction = O_over_Fe_solar_Grevesse93 - O_over_Fe_solar_Asplund09
+    if element == 'Mg':
+        correction = Mg_over_Fe_solar_Grevesse93 - Mg_over_Fe_solar_Asplund09
 
-    Z_median = (raw[:, 1] + correction_Sun_O_over_Fe)
-    Z_lo = (raw[:, 2] + correction_Sun_O_over_Fe)
-    Z_hi = (raw[:, 3] + correction_Sun_O_over_Fe)
+    Z_median = (raw[:, 1] + correction)
+    Z_lo = (raw[:, 2] + correction)
+    Z_hi = (raw[:, 3] + correction)
 
     # Define the scatter as offset from the mean value
     y_scatter = np.array((Z_median - Z_lo, Z_hi - Z_median))
