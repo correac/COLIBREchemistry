@@ -1,0 +1,33 @@
+#!/bin/bash
+#SBATCH -J Morpholopy
+#SBATCH -o output-%j.out
+#SBATCH -e error-%j.err
+#SBATCH --time 10:00:00
+#SBATCH -A dp004
+#SBATCH -p cosma7
+#SBATCH -N 1
+#SBATCH -n 28 #number cores
+#SBATCH --exclusive
+
+module load cosma
+module load python/3.9.1-C7
+
+source $HOME/morpholopy_env/bin/activate
+
+#python3 $HOME/morpholopy/morpholopy/morpholopy.py \
+#                     -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_vBF \
+#                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe05_ZdepBoost_04Zsun \
+#                     -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_04_comparison/ConvergenceTest3 \
+#                     -c halo_0036.properties halo_0036.properties \
+#                     -s colibre_0036.hdf5 colibre_0036.hdf5 \
+#                     -n L50DTDtau2nu1p6Zdep L25DTDtau2nu1p6Zdep \
+#                     -m 5e9
+
+python $HOME/COLIBREchemistry/COLIBREchemistry/colibre_chemistry.py \
+                     -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L012N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe0507Mg07 \
+                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05O07Mg07 \
+                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L050N376_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05O07Mg07 \
+                     -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_04_comparison/ConvergenceExp2nu2Fe05O07Mg07 \
+                     -c halo_0036.properties halo_0036.properties halo_0036.properties \
+                     -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
+                     -n L12Tau2nu2Fe05O07Mg07 L25Tau2nu2Fe05O07Mg07 L50Tau2nu2Fe05O07Mg07

@@ -1,0 +1,33 @@
+#!/bin/bash
+#SBATCH -J Morpholopy
+#SBATCH -o output-%j.out
+#SBATCH -e error-%j.err
+#SBATCH --time 10:00:00
+#SBATCH -A dp004
+#SBATCH -p cosma7
+#SBATCH -N 1
+#SBATCH -n 28 #number cores
+#SBATCH --exclusive
+
+module load cosma
+module load python/3.9.1-C7
+
+source $HOME/morpholopy_env/bin/activate
+
+python $HOME/COLIBREchemistry/COLIBREchemistry/colibre_chemistry.py \
+                     -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L050N376_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe1O1Mg1 \
+                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L050N376_NewYields_SNIILin8hi40_DTDExp2nu2_Fe0507Mg07 \
+                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L050N376_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05_ZdepBoost_04Zsun \
+                     -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_04_comparison/L50N376ComparisonABCModels \
+                     -c halo_0036.properties halo_0036.properties halo_0036.properties \
+                     -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
+                     -n Tau2nu1p6Fe1O1Mg1 Tau2nu2Fe05O07Mg07 Tau2nu2Fe05Zdep
+
+#python $HOME/COLIBREchemistry/COLIBREchemistry/colibre_chemistry.py \
+#                     -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L012N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe1O1Mg1 \
+#                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L012N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe0507Mg07 \
+#                        /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L012N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05_ZdepBoost_04Zsun \
+#                     -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_04_comparison/L12N188ComparisonABCModels \
+#                     -c halo_0036.properties halo_0036.properties halo_0036.properties \
+#                     -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
+#                     -n Tau2nu1p6Fe1O1Mg1 Tau2nu2Fe05O07Mg07 Tau2nu2Fe05Zdep
