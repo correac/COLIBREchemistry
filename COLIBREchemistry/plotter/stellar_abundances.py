@@ -654,6 +654,10 @@ def plot_stellar_abundances(sim_info, output_path, abundance_data):
 
     # Additionally , let's try a few things #######
 
+    O_Fe = ratios_MW['O_Fe']
+    Mg_Fe = ratios_MW['Mg_Fe']
+    Fe_H = ratios_MW['Fe_H']
+
     # Plot parameters
     params = {
         "font.size": 11,
