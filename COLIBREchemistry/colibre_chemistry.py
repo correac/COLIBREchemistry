@@ -67,6 +67,7 @@ def main(config: ArgumentParser):
     compare_mass_metallicity_relations(metallicity_data, output_name_list, config.output_directory)
 
     plot_SNIa_rates(SNIa_data, output_name_list, config.output_directory)
+
     plot_SFH(SFH_data, output_name_list, config.output_directory)
 
     loadAbundancePlots(web, config.output_directory, output_name_list)

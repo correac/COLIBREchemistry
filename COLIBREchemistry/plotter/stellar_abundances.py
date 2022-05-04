@@ -1,9 +1,11 @@
+import matplotlib
 import matplotlib.pylab as plt
 from matplotlib.pylab import rcParams
 import numpy as np
 from tqdm import tqdm
 from .loadObservationalData import plot_MW_Satellites, plot_MW_data, \
     plot_GALAH_data, plot_StrontiumObsData, plot_APOGEE_data
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 
 def compute_ratios(Hydrogen_fraction, Magnesium_fraction, Oxygen_fraction, Iron_fraction,
@@ -115,6 +117,10 @@ def calculate_abundaces_from_MW_type_galaxies(sim_info):
     Neon_fraction = []
     Iron_fraction_SNIa = []
 
+    stars_R = []
+    stars_z = []
+    stars_age = []
+
     for i in tqdm(range(len(sample))):
 
         sim_info.make_particle_data(halo_id=sim_info.halo_data.halo_ids[sample[i]])
@@ -131,7 +137,6 @@ def calculate_abundaces_from_MW_type_galaxies(sim_info):
         N_stars = sim_info.stars.nitrogen
         Ne_stars = sim_info.stars.neon
         FeSNIa_Fe = sim_info.stars.iron_SNIa_fraction
-        halo_stars = np.where(sim_info.stars.in_halo == 1)[0]
 
         Oxygen_fraction = np.append(Oxygen_fraction, O_stars)
         Iron_fraction = np.append(Iron_fraction, Fe_stars)
@@ -146,6 +151,10 @@ def calculate_abundaces_from_MW_type_galaxies(sim_info):
         Neon_fraction = np.append(Neon_fraction, Ne_stars)
         Iron_fraction_SNIa = np.append(Iron_fraction_SNIa, FeSNIa_Fe)
 
+        stars_R = np.append(stars_R, sim_info.stars.R)
+        stars_z = np.append(stars_z, sim_info.stars.z)
+        stars_age = np.append(stars_age, sim_info.stars.age)
+
     ratios = compute_ratios(Hydrogen_fraction, Magnesium_fraction, 
                             Oxygen_fraction, Iron_fraction,
                             Carbon_fraction, Silicon_fraction,
@@ -153,7 +162,7 @@ def calculate_abundaces_from_MW_type_galaxies(sim_info):
                             Strontium_fraction, Nitrogen_fraction,
                             Neon_fraction, Iron_fraction_SNIa)
     
-    return ratios, halo_stars
+    return ratios, stars_age, stars_R, stars_z
 
 
 def calculate_abundaces_from_satellite_galaxies(sim_info):
@@ -219,7 +228,8 @@ def calculate_abundaces_from_satellite_galaxies(sim_info):
 def plot_stellar_abundances(sim_info, output_path, abundance_data):
 
     # Look for abundance ratios from COLIBRE snaps:
-    ratios_MW, halo_stars = calculate_abundaces_from_MW_type_galaxies(sim_info)
+    ratios_MW, stars_age, stars_R, stars_z = \
+        calculate_abundaces_from_MW_type_galaxies(sim_info)
     O_Fe = ratios_MW['O_Fe']
     Mg_Fe = ratios_MW['Mg_Fe']
     Fe_H = ratios_MW['Fe_H']
@@ -255,7 +265,6 @@ def plot_stellar_abundances(sim_info, output_path, abundance_data):
     plt.grid("True")
 
     plt.plot(Fe_H, O_Fe, 'o', ms=0.2, color='grey', alpha=0.2)
-    #plt.plot(Fe_H[halo_stars], O_Fe[halo_stars], 'o', ms=0.5, color='black')
 
     plot_MW_data('O')
     plot_GALAH_data('O')
@@ -310,7 +319,6 @@ def plot_stellar_abundances(sim_info, output_path, abundance_data):
     plt.grid("True")
 
     plt.plot(Fe_H, O_Fe, 'o', ms=0.2, color='grey', alpha=0.2)
-    #plt.plot(Fe_H[halo_stars], O_Fe[halo_stars], 'o', ms=0.5, color='black')
 
     plot_MW_data('O')
     plot_GALAH_data('O')
@@ -337,7 +345,6 @@ def plot_stellar_abundances(sim_info, output_path, abundance_data):
     plt.grid("True")
 
     plt.plot(Fe_H, O_Fe, 'o', ms=0.2, color='grey', alpha=0.2)
-    #plt.plot(Fe_H[halo_stars], O_Fe[halo_stars], 'o', ms=0.5, color='black')
 
     plot_MW_data('O')
     plot_APOGEE_data('O')
@@ -643,6 +650,186 @@ def plot_stellar_abundances(sim_info, output_path, abundance_data):
                           'Ne_Fe': Ne_Fe,
                           'FeSNIa_Fe': FeSNIa_Fe,
                           'counter': counter_sim}
+
+
+    # Additionally , let's try a few things #######
+
+    # Plot parameters
+    params = {
+        "font.size": 11,
+        "font.family": "STIXGeneral",
+        "text.usetex": False,
+        "mathtext.fontset": "stix",
+        "figure.figsize": (7, 3),
+        "figure.subplot.left": 0.1,
+        "figure.subplot.right": 0.95,
+        "figure.subplot.bottom": 0.15,
+        "figure.subplot.top": 0.83,
+        "figure.subplot.wspace": 0.3,
+        "figure.subplot.hspace": 0.3,
+        "lines.markersize": 0.5,
+        "lines.linewidth": 0.2,
+    }
+    rcParams.update(params)
+
+    plt.figure()
+    cm = matplotlib.cm.get_cmap('RdYlBu')
+
+    # Box stellar abundance --------------------------------
+    ax = plt.subplot(1, 2, 1)
+    plt.grid("True")
+
+    sort_age = np.argsort(stars_age)
+    sort_age = sort_age[::-1]
+
+    plt.scatter(Fe_H[sort_age], O_Fe[sort_age], c=stars_age[sort_age], s=0.2, vmin=0, vmax=14, cmap=cm)
+
+    # plot_MW_data('O')
+    # plot_GALAH_data('O')
+
+    plt.text(-3.8, 1.3, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[O/Fe]", labelpad=2)
+    plt.axis([-4, 1, -1, 1.5])
+    axins = inset_axes(ax, width="100%", height="4%", loc='upper center', borderpad=-2.9)
+    cb = plt.colorbar(cax=axins, orientation="horizontal")
+    cb.set_ticks([0, 2, 4, 6, 8, 10, 12, 14])
+    cb.set_label('Stellar Age [Gyr]', labelpad=-2)
+
+    #####
+    ax = plt.subplot(1, 2, 2)
+    plt.grid("True")
+
+    inner = np.where((stars_R > 9) & (stars_z < 2))[0]
+    plt.plot(Fe_H[inner], O_Fe[inner], 'o', ms=0.5, color='tab:blue', alpha=1,
+             label='$R > 9~\mathrm{kpc}, |z|<2~\mathrm{kpc}$')
+
+    inner = np.where((stars_R <= 7) & (np.abs(stars_z) < 2))[0]
+    plt.plot(Fe_H[inner], O_Fe[inner], 'o', ms=0.5, color='tab:red', alpha=1,
+             label='$R < 7~\mathrm{kpc}, |z|<2~\mathrm{kpc}$')
+
+    inner = np.where((stars_R >= 7) & (stars_R <= 9) & (np.abs(stars_z) < 2))[0]
+    plt.plot(Fe_H[inner], O_Fe[inner], 'o', ms=0.5, color='tab:orange', alpha=1,
+             label = '$7~\mathrm{kpc} < R < 9~\mathrm{kpc}, |z|<2~\mathrm{kpc}$')
+
+    # plot_MW_data('O')
+    # plot_GALAH_data('O')
+
+    plt.text(-3.8, 1.3, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[O/Fe]", labelpad=2)
+    plt.axis([-4, 1, -1, 1.5])
+    plt.legend(loc=[0.0, 0.97], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
+               columnspacing=0.02, fontsize=9)
+
+    plt.savefig(f"{output_path}/O_Fe_" + sim_info.simulation_name + "_test.png", dpi=300)
+
+    #####
+    plt.figure()
+    cm = matplotlib.cm.get_cmap('RdYlBu')
+
+    # Box stellar abundance --------------------------------
+    ax = plt.subplot(1, 2, 1)
+    plt.grid("True")
+
+    sort_age = np.argsort(stars_age)
+    sort_age = sort_age[::-1]
+
+    plt.scatter(Fe_H[sort_age], Mg_Fe[sort_age], c=stars_age[sort_age], s=0.2, vmin=0, vmax=14, cmap=cm)
+
+    # plot_MW_data('O')
+    # plot_GALAH_data('O')
+
+    plt.text(-3.8, 1.2, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[Mg/Fe]", labelpad=2)
+    plt.axis([-4, 1, -2, 1.5])
+    axins = inset_axes(ax, width="100%", height="4%", loc='upper center', borderpad=-2.9)
+    cb = plt.colorbar(cax=axins, orientation="horizontal")
+    cb.set_ticks([0, 2, 4, 6, 8, 10, 12, 14])
+    cb.set_label('Stellar Age [Gyr]', labelpad=-2)
+
+    #####
+    ax = plt.subplot(1, 2, 2)
+    plt.grid("True")
+
+    inner = np.where((stars_R > 9) & (stars_z < 2))[0]
+    plt.plot(Fe_H[inner], Mg_Fe[inner], 'o', ms=0.5, color='tab:blue', alpha=1,
+             label='$R > 9~\mathrm{kpc}, |z|<2~\mathrm{kpc}$')
+
+    inner = np.where((stars_R <= 7) & (np.abs(stars_z) < 2))[0]
+    plt.plot(Fe_H[inner], Mg_Fe[inner], 'o', ms=0.5, color='tab:red', alpha=1,
+             label='$R < 7~\mathrm{kpc}, |z|<2~\mathrm{kpc}$')
+
+    inner = np.where((stars_R >= 7) & (stars_R <= 9) & (np.abs(stars_z) < 2))[0]
+    plt.plot(Fe_H[inner], Mg_Fe[inner], 'o', ms=0.5, color='tab:orange', alpha=1,
+             label = '$7~\mathrm{kpc} < R < 9~\mathrm{kpc}, |z|<2~\mathrm{kpc}$')
+
+    # plot_MW_data('O')
+    # plot_GALAH_data('O')
+
+    plt.text(-3.8, 1.2, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[Mg/Fe]", labelpad=2)
+    plt.axis([-4, 1, -2, 1.5])
+    plt.legend(loc=[0.0, 0.97], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
+               columnspacing=0.02, fontsize=9)
+
+    plt.savefig(f"{output_path}/Mg_Fe_" + sim_info.simulation_name + "_test.png", dpi=300)
+
+    #####
+    plt.figure()
+    cm = matplotlib.cm.get_cmap('RdYlBu')
+
+    # Box stellar abundance --------------------------------
+    ax = plt.subplot(1, 2, 1)
+    plt.grid("True")
+
+    select = np.where(stars_age < 8)[0]
+    sort_age = np.argsort(stars_age[select])
+    sort_age = sort_age[::-1]
+    plt.scatter(Fe_H[select[sort_age]], Mg_Fe[select[sort_age]], c=stars_age[select[sort_age]],
+                s=0.2, vmin=0, vmax=8, cmap=cm)
+
+    # plot_MW_data('O')
+    # plot_GALAH_data('O')
+
+    plt.text(-3.8, 1.2, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[Mg/Fe]", labelpad=2)
+    plt.axis([-4, 1, -2, 1.5])
+    axins = inset_axes(ax, width="100%", height="4%", loc='upper center', borderpad=-2.9)
+    cb = plt.colorbar(cax=axins, orientation="horizontal")
+    cb.set_ticks([0, 2, 4, 6, 8])
+    cb.set_label('Stellar Age [Gyr]', labelpad=-2)
+
+    #####
+    ax = plt.subplot(1, 2, 2)
+    plt.grid("True")
+
+    select = np.where((stars_age > 4))[0]
+    plt.plot(Fe_H[select], Mg_Fe[select], 'o', ms=0.5, color='crimson', alpha=1,
+             label='Stellar age $>$ 4 Gyr')
+
+    select = np.where((stars_age > 2) & (stars_age < 4))[0]
+    plt.plot(Fe_H[select], Mg_Fe[select], 'o', ms=0.5, color='tab:orange', alpha=1,
+             label='2 Gyr $<$ Stellar age $<$ 4 Gyr')
+
+    select = np.where(stars_age < 2)[0]
+    plt.plot(Fe_H[select], Mg_Fe[select], 'o', ms=0.5, color='tab:blue', alpha=1,
+             label='Stellar age $<$ 2 Gyr')
+
+    # plot_MW_data('O')
+    # plot_GALAH_data('O')
+
+    plt.text(-3.8, 1.2, "MW-type galaxies")
+    plt.xlabel("[Fe/H]", labelpad=2)
+    plt.ylabel("[Mg/Fe]", labelpad=2)
+    plt.axis([-4, 1, -2, 1.5])
+    plt.legend(loc=[0.0, 0.97], labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
+               columnspacing=0.02, fontsize=9)
+
+    plt.savefig(f"{output_path}/Mg_Fe_" + sim_info.simulation_name + "_test_2.png", dpi=300)
 
     return abundance_data
 

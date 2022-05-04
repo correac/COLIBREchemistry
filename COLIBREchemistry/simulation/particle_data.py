@@ -1,5 +1,6 @@
 import numpy as np
-from .unitilies.helper_functions import cosmic_time_approx_Gyr
+from .unitilies.helper_functions import cosmic_time_approx_Gyr, calculate_angmomentum
+from swiftsimio.visualisation.rotation import rotation_matrix_from_vector
 
 
 class GasParticleData:
@@ -95,11 +96,28 @@ class StarParticleData:
         self.in_halo = np.zeros(self.n_parts)
 
         indx = sim_info.halo_data.halo_ids == halo_id
-        x = self.xcoordinate - sim_info.halo_data.xminpot[indx]
-        y = self.ycoordinate - sim_info.halo_data.yminpot[indx]
-        z = self.zcoordinate - sim_info.halo_data.zminpot[indx]
-        r = x ** 2 + y ** 2 + z ** 2
-        halo_stars = np.where(r > 10 ** 2)[0]  # further than 8kpc?
-        self.in_halo[halo_stars] = np.ones(len(halo_stars))
+
+        particles_pos = np.zeros((self.n_parts,3))
+        particles_pos[:,0] = self.xcoordinate - sim_info.halo_data.xminpot[indx]
+        particles_pos[:,1] = self.ycoordinate - sim_info.halo_data.yminpot[indx]
+        particles_pos[:,2] = self.zcoordinate - sim_info.halo_data.zminpot[indx]
+
+        particles_vel = np.zeros((self.n_parts,3))
+        particles_vel[:,0] = self.xvelocity - sim_info.halo_data.vxminpot[indx]
+        particles_vel[:,1] = self.yvelocity - sim_info.halo_data.vyminpot[indx]
+        particles_vel[:,2] = self.zvelocity - sim_info.halo_data.vzminpot[indx]
+
+        momentum, momentum_inner_5kpc, distance = \
+            calculate_angmomentum(sim_info, particles_pos, particles_vel, self.mass )
+
+        self.distance = distance
+
+        face_on_rotation_matrix = rotation_matrix_from_vector(momentum, axis="z")
+
+        particles_pos_face_on = np.matmul(face_on_rotation_matrix, particles_pos.T)
+        particles_pos_face_on = particles_pos_face_on.T
+
+        self.R = np.sqrt( particles_pos_face_on[:,0]**2 + particles_pos_face_on[:,1]**2)
+        self.z = particles_pos_face_on[:, 2]
 
         #self.luminosity = sim_info.snapshot.stars.luminosity.rband[mask_stars].value

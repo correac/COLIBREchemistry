@@ -106,7 +106,7 @@ class ArgumentParser(object):
 
         print("")
         print("Welcome to COLIBRE Chemistry Plots!")
-        print("Here are your parsed arguments:")
+        print("Here are your parse arguments:")
         print("---------------------\n")
         print(f"Snapshot list: {self.snapshot_list}")
         print(f"Catalogue list: {self.catalogue_list}")

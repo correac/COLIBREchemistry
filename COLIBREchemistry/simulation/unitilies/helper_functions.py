@@ -7,7 +7,6 @@ import numpy as np
 from scipy.interpolate import interp1d
 from typing import Union
 
-
 def cosmic_time_approx_Gyr(
     z: Union[float, np.ndarray], Omega_L: float, Hubble_time: float
 ) -> Union[float, np.ndarray]:
@@ -279,3 +278,61 @@ def Epsilon(rs, ms, vs, jzs, gpot):
     Etots = gpot.calcEtot(vs, np.sqrt(np.sum(rs ** 2, axis=1)))
     j_circs = gpot.calcJcirc(Etots)
     return jzs / j_circs
+
+def calculate_angmomentum(sim_info, pos, vel, mass):
+
+    # Centering & unwrapping
+    pos[:, :3] += sim_info.boxSize / 2
+    pos[:, :3] %= sim_info.boxSize
+    pos[:, :3] -= sim_info.boxSize / 2
+
+    # Compute distances
+    radial_distance = np.linalg.norm(pos[:, :3], axis=1)
+
+    # Restrict particles
+    extract = radial_distance < 30.0
+
+    pos = pos[extract, :]
+    vel = vel[extract, :]
+    mass = mass[extract]
+    distance = radial_distance[extract]
+
+    Mstar = np.sum(mass)  # compute total in-aperture stellar mass
+
+    # Compute 30kpc CoM to Sub CoM velocty offset & recenter
+    dvVmass = ( np.sum( mass[:, np.newaxis] * vel, axis=0) / Mstar )
+    vel -= dvVmass
+
+    # Compute momentum
+    smomentums = np.cross(pos, vel)
+    momentum = np.sum(mass[:, np.newaxis] * smomentums, axis=0)
+
+    extract = distance < 5.0
+    smomentum_inner_5kpc = np.cross( pos[extract, :], vel[extract, :] )
+    momentum_inner_5kpc = np.sum( mass[extract][:, np.newaxis] * smomentum_inner_5kpc, axis=0 )
+
+    # # Compute specific angular momentum
+    # sa_momentum = momentum / Mstar
+    # sa_momentum = np.linalg.norm(sa_momentum)
+    #
+    # # Compute rotational velocities
+    # smomentumz = np.sum(momentum * smomentums / np.linalg.norm(momentum), axis=1)
+    # cyldistances = (
+    #     radial_distance ** 2 - np.sum(momentum * pos_all / np.linalg.norm(momentum), axis=1) ** 2
+    # )
+    # cyldistances = np.sqrt(np.abs(cyldistances))
+    #
+    # if len(cyldistances[cyldistances > 0]) > 0:
+    #     cylmin = np.min(cyldistances[cyldistances > 0])
+    #     cyldistances[cyldistances == 0] = cylmin
+    #     vrots = smomentumz / cyldistances
+    #
+    # else:
+    #     vrots = smomentumz
+
+    # Apply rotation so that momentum vector corresponds to z-axis
+    momentum /= np.linalg.norm(momentum)
+    momentum_inner_5kpc /= np.linalg.norm(momentum_inner_5kpc)
+
+    # Return
+    return momentum, momentum_inner_5kpc, radial_distance

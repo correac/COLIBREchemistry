@@ -285,6 +285,45 @@ def loadAbundancePlots(
     add_web_section(web, title, caption, id, plots)
     PlotsInWeb.reset_plots_list()
 
+    for i in range(num_sims):
+        title = name_list[i]
+        caption = "Oxygen abundance [O/Fe] as a function of Iron abundance [Fe/H]. "
+        caption += "Both panels show the stellar abundance from MW-type haloes, with grey dots corresponding to individual stars. Note that all stars gravitationaly bound to these galaxies are included. "
+        caption += "The left panel shows an scatter plot where stars are color-coded by age. The right panel shows the stellar abundaces of "
+        caption += "stars separated according to them being in the outer disc (R>9kpc, z<2 kpc), in the inner disc (R<7kpc, z<2 kpc) "
+        caption += " or in the solar neighbourhood (7kpc < R < 9kpc, z<2 kpc)."
+        filename = "O_Fe_" + name_list[i] + "_test.png"
+        id = abs(hash("Oxygen test %i" % i))
+        PlotsInWeb.load_plots(title, caption, filename, id)
+
+    for i in range(num_sims):
+        title = name_list[i]
+        caption = "Magnesium abundance [Mg/Fe] as a function of Iron abundance [Fe/H]. "
+        caption += "Both panels show the stellar abundance from MW-type haloes, with grey dots corresponding to individual stars. Note that all stars gravitationaly bound to these galaxies are included. "
+        caption += "The left panel shows an scatter plot where stars are color-coded by age. The right panel shows the stellar abundaces of "
+        caption += "stars separated according to them being in the outer disc (R>9kpc, z<2 kpc), in the inner disc (R<7kpc, z<2 kpc) "
+        caption += " or in the solar neighbourhood (7kpc < R < 9kpc, z<2 kpc)."
+        filename = "Mg_Fe_" + name_list[i] + "_test.png"
+        id = abs(hash("Magnesium test %i" % i))
+        PlotsInWeb.load_plots(title, caption, filename, id)
+
+    for i in range(num_sims):
+        title = name_list[i]
+        caption = "Magnesium abundance [Mg/Fe] as a function of Iron abundance [Fe/H]. "
+        caption += "Both panels show the stellar abundance from MW-type haloes, with grey dots corresponding to individual stars. Note that all stars gravitationaly bound to these galaxies are included. "
+        caption += "The left panel shows an scatter plot where stars are color-coded by age, only stars younger than 8 Gyrs are included in the plot. "
+        caption += "The right panel shows the stellar abundaces of stars separated according to them being younger than 2 Gyr, with ages between 2 and 4 Gyrs, or older than 4 Gyrs."
+        filename = "Mg_Fe_" + name_list[i] + "_test_2.png"
+        id = abs(hash("Magnesium test 2 %i" % i))
+        PlotsInWeb.load_plots(title, caption, filename, id)
+
+    title = "[Alpha/Fe] Additional plots"
+    id = abs(hash("alpha section"))
+    plots = PlotsInWeb.plots_details
+    caption = " "
+    add_web_section(web, title, caption, id, plots)
+    PlotsInWeb.reset_plots_list()
+
     title = "Stellar Mass - Z/Zsun relation (light-weighted r-band, 100 kpc aperture)"
     caption = "Comparison between the Stellar mass-Z/Zsun median relations from each simulation listed in this catalogue. "
     caption += "The values of Z/Zsun are obtained by calculated the light-weighted r-band average of the stars metallicity."
