@@ -25,15 +25,15 @@ python colibre_chemistry.py \
                        -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
                        -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonWithFe15
 
-#python colibre_chemistry.py \
-#                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05O07Mg07 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe1O1Mg1 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe1O07Mg07 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe05O07Mg07 \
-#                       -n nu2Fe05O07Mg07 nu2Fe1Mg1O1 nu1p6Fe1O07Mg07 nu1p6Fe05O07Mg07 \
-#                       -c halo_0036.properties halo_0036.properties halo_0036.properties halo_0036.properties \
-#                       -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
-#                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonBestModelsNew
+python colibre_chemistry.py \
+                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05O07Mg07 \
+                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe1O1Mg1 \
+                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe1O07Mg07 \
+                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe05O07Mg07 \
+                       -n nu2Fe05O07Mg07 nu2Fe1Mg1O1 nu1p6Fe1O07Mg07 nu1p6Fe05O07Mg07 \
+                       -c halo_0036.properties halo_0036.properties halo_0036.properties halo_0036.properties \
+                       -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
+                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonBestModelsNew
 
 
 

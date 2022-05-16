@@ -709,7 +709,7 @@ def plot_Kirby_data():
 def plot_gallazzi(element):
     # Cosmology
     h_sim = 0.6777
-    h_obs = 0.704  # WMAP7
+    h_obs = 0.7 # WMAP 7
     Z_solar_obs = 0.02
 
     input_filename = "./plotter/obs_data/gallazzi_2021_ascii.txt"
@@ -718,33 +718,44 @@ def plot_gallazzi(element):
     # Read the data
     raw = np.loadtxt(input_filename, delimiter=delimiter)
     M_star = (
-            10 ** raw[:, 0] * (h_sim / h_obs) ** -2
+#            10 ** raw[:, 0] * h_obs ** 2
+            10 ** raw[:, 0] * h_sim ** -2
+#            10 ** raw[:, 0] * (h_sim / h_obs) ** -2
     )
 
     # Correction factor due to the difference in (X_O/X_Fe)_Sun
-    # from Grevesse & Sauval (1993) to Asplund+ (2009)
+    # From Grevesse, Noels & Sauval (1996) to Asplund+ (2009)
 
-    O_over_H_Grevesse93 = 8.83  # Grevesse & Sauval
-    Fe_over_H_Grevesse93 = 7.5  # Grevesse & Sauval
-    Mg_over_H_Grevesse93 = 7.58
-
-    #O_over_H_Andres89 = 8.93
-    #Fe_over_H_Andres89 = 7.51
-    #O_over_Fe_solar_Andres89 = O_over_H_Andres89 - Fe_over_H_Andres89
+    O_over_H_Gr96 = 8.87
+    Fe_over_H_Gr96 = 7.50
+    Mg_over_H_Gr96 = 7.58
 
     O_over_H_Asplund09 = 8.69
     Fe_over_H_Asplund09 = 7.50
     Mg_over_H_Asplund09 = 7.6
 
-    O_over_Fe_solar_Grevesse93 = O_over_H_Grevesse93 - Fe_over_H_Grevesse93
-    Mg_over_Fe_solar_Grevesse93 = Mg_over_H_Grevesse93 - Fe_over_H_Grevesse93
+    O_over_Fe_solar_Gr96 = O_over_H_Gr96 - Fe_over_H_Gr96
+    Mg_over_Fe_solar_Gr96 = Mg_over_H_Gr96 - Fe_over_H_Gr96
     O_over_Fe_solar_Asplund09 = O_over_H_Asplund09 - Fe_over_H_Asplund09
     Mg_over_Fe_solar_Asplund09 = Mg_over_H_Asplund09 - Fe_over_H_Asplund09
 
     if element == 'O':
-        correction = O_over_Fe_solar_Grevesse93 - O_over_Fe_solar_Asplund09
+        mH_in_cgs = 1
+        mFe_in_cgs = 55.845  # * mp (times proton mass)
+        mO_in_cgs = 15.999  # * mp
+
+        O_Fe_Sun = O_over_H_Asplund09 - Fe_over_H_Asplund09 - np.log10(mFe_in_cgs / mO_in_cgs)
+
+        # From Grevesse, Noels & Sauval (1996):
+        O_Fe_Sun_Gr96 = np.log10(0.0096 / 0.0016)
+
+        correction = O_Fe_Sun_Gr96 - O_Fe_Sun
+
+        #correction = O_over_Fe_solar_Gr96 - O_over_Fe_solar_Asplund09
+
     if element == 'Mg':
-        correction = Mg_over_Fe_solar_Grevesse93 - Mg_over_Fe_solar_Asplund09
+
+        correction = Mg_over_Fe_solar_Gr96 - Mg_over_Fe_solar_Asplund09
 
     Z_median = (raw[:, 1] + correction)
     Z_lo = (raw[:, 2] + correction)
@@ -753,7 +764,66 @@ def plot_gallazzi(element):
     # Define the scatter as offset from the mean value
     y_scatter = np.array((Z_median - Z_lo, Z_hi - Z_median))
     plt.errorbar(M_star, Z_median, yerr= y_scatter, fmt='o',
-                 ls='none',color='purple',lw=1,ms=1,label='Gallazzi et al. (2021)')
+                 ls='none',color='purple',lw=1,ms=1.5,label='Gallazzi et al. (2021)', zorder=23)
+
+def plot_thomas_2010():
+
+    mH_in_cgs = 1
+    mFe_in_cgs = 55.845 # * mp (times proton mass)
+    mO_in_cgs = 15.999 # * mp
+
+    # Asplund et al. (2009)
+    Fe_H_Sun_Asplund = 7.5
+    O_H_Sun_Asplund = 8.69
+
+    O_Fe_Sun = O_H_Sun_Asplund - Fe_H_Sun_Asplund - np.log10(mFe_in_cgs / mO_in_cgs)
+    Fe_H_Sun = Fe_H_Sun_Asplund - 12.0 - np.log10(mH_in_cgs / mFe_in_cgs)
+
+    # From Grevesse, Noels & Sauval (1996):
+    alpha_Fe_Sun_Gr96 = np.log10(0.0148 / 0.0016)
+    O_Fe_Sun_Gr96 = np.log10(0.0096 / 0.0016)
+
+    correction_Sun_O_over_Fe = O_Fe_Sun_Gr96 - O_Fe_Sun
+
+    # IMF correction factor (from M* with Kroupa IMF to M* with Chabrier IMF)
+    # (Lacey+ 2016, https://arxiv.org/pdf/1509.08473, table B2)
+    kroupa_to_chabrier_mass = 0.912
+
+    # Conversion from log velocity dispersion to [alpha/Fe]
+    # (eq. 1 in Thomas et al. 2010)
+    func_alpha_over_Fe = (
+        lambda log_sigma: -0.55 + 0.33 * log_sigma + correction_Sun_O_over_Fe
+    )
+
+    # Conversion from log Mstar to log velocity dispersion (eq. 2 in
+    # Thomas et al. 2005, https://arxiv.org/pdf/astro-ph/0410209)
+    func_log_sigma = lambda log_Mstar: (log_Mstar - 0.63) / 4.52
+
+    # X values of the final data
+    M_star = np.arange(np.log10(3e10), np.log10(3e11), 0.1)
+
+    # Conversions
+    M_star = 10**M_star * kroupa_to_chabrier_mass
+    sigma_log = func_log_sigma(log_Mstar=np.log10(M_star))
+
+    # Y values of the final data
+    alpha_over_Fe = func_alpha_over_Fe(log_sigma=sigma_log)
+
+    plt.plot(M_star, alpha_over_Fe,'-', color='grey',lw=1.5, label='Thomas et al. (2010)', zorder=25)
+
+
+def plot_conroy_2014():
+
+    M_star = np.array([9.8, 10.08, 10.55, 10.70, 11.07])
+    O_Fe = np.array([0.10, 0.17, 0.20, 0.25, 0.28])
+
+    # IMF correction factor (from M* with Kroupa IMF to M* with Chabrier IMF)
+    # (Lacey+ 2016, https://arxiv.org/pdf/1509.08473, table B2)
+    kroupa_to_chabrier_mass = 0.912
+
+    M_star = 10**M_star * kroupa_to_chabrier_mass
+
+    plt.plot(M_star, O_Fe,'-', color='lightgreen',lw=1.5, label='Conroy et al. (2014)', zorder=24)
 
 
 def plot_gallazzi_2005():

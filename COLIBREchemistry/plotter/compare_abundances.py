@@ -3,7 +3,7 @@ from matplotlib.pylab import rcParams
 import numpy as np
 from .loadObservationalData import plot_GALAH_data, plot_MW_data, plot_StrontiumObsData, plot_APOGEE_data
 from .plot_mass_metallicity import plot_Kirby_data, plot_Kirby_analysed, \
-    plot_gallazzi, plot_gallazzi_2005, plot_Kudritzki_2016, plot_Zahid_2017
+    plot_gallazzi, plot_gallazzi_2005, plot_Kudritzki_2016, plot_Zahid_2017, plot_thomas_2010, plot_conroy_2014
 
 
 def compare_stellar_abundances(sims_data, output_name_list, output_path):
@@ -389,6 +389,8 @@ def plot_O_Fe_mass_relation(Mstellar, O_Fe, counter, ylabel, output_name_list, o
     ax = plt.subplot(1, 1, 1)
     plt.grid("True")
 
+    plot_thomas_2010()
+    plot_conroy_2014()
     plot_gallazzi('O')
 
     count = 0
@@ -410,7 +412,7 @@ def plot_O_Fe_mass_relation(Mstellar, O_Fe, counter, ylabel, output_name_list, o
     plt.ylabel(ylabel, labelpad=2)
     plt.xlabel("Stellar Mass [M$_{\odot}$]", labelpad=2)
     plt.xscale('log')
-    plt.axis([1e8, 1e12, 0.0, 0.6])
+    plt.axis([1e8, 1e12, -0.1, 0.6])
     ax.tick_params(direction='in', axis='both', which='both', pad=4.5)
 
     plt.legend(loc='upper left', labelspacing=0.1, handlelength=1.5, handletextpad=0.1, frameon=False, ncol=1,
