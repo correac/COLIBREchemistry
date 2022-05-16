@@ -353,6 +353,8 @@ def plot_Mg_Fe_mass_relation(Mstellar, Mg_Fe, counter, ylabel, output_name_list,
     ax = plt.subplot(1, 1, 1)
     plt.grid("True")
 
+    plot_thomas_2010('Mg')
+    plot_conroy_2014('Mg')
     plot_gallazzi('Mg')
 
     count = 0
@@ -389,8 +391,8 @@ def plot_O_Fe_mass_relation(Mstellar, O_Fe, counter, ylabel, output_name_list, o
     ax = plt.subplot(1, 1, 1)
     plt.grid("True")
 
-    plot_thomas_2010()
-    plot_conroy_2014()
+    plot_thomas_2010('O')
+    plot_conroy_2014('O')
     plot_gallazzi('O')
 
     count = 0
