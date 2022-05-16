@@ -5,36 +5,15 @@
 #                       -n Testrun -c halo_0036.properties -s colibre_0036.hdf5 \
 #                       -o /Users/camila/SimulationData/cosma/SIMULATION_RUNS/Chemistry_Plots
 
-#python colibre_chemistry.py \
-#                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_04_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_vBF \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu2 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu3 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu4 \
-#                       -n nu1p6Fe1O1Mg1 nu2Fe1Mg1O1 nu3Fe1O1Mg1 nu4Fe1O1Mg1 \
-#                       -c halo_0036.properties halo_0036.properties halo_0036.properties halo_0036.properties \
-#                       -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
-#                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonF1O1Mg1
-
 python colibre_chemistry.py \
-                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe15O1Mg1 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe1O1Mg1 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe15O1Mg1 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe1O1Mg1 \
-                       -n nu1p6Fe15O1Mg1 nu1p6Fe1Mg1O1 nu2Fe15O1Mg1 nu2Fe1O1Mg1 \
+                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu2 \
+                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu2_Fe05 \
+                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu3 \
+                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu3_Fe05 \
+                       -n nu2Fe1O1Mg1 nu2Fe05Mg1O1 nu3Fe1O1Mg1 nu3Fe05O1Mg1 \
                        -c halo_0036.properties halo_0036.properties halo_0036.properties halo_0036.properties \
                        -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
-                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonWithFe15
-
-#python colibre_chemistry.py \
-#                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe05O07Mg07 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu2_Fe1O1Mg1 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe1O07Mg07 \
-#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe05O07Mg07 \
-#                       -n nu2Fe05O07Mg07 nu2Fe1Mg1O1 nu1p6Fe1O07Mg07 nu1p6Fe05O07Mg07 \
-#                       -c halo_0036.properties halo_0036.properties halo_0036.properties halo_0036.properties \
-#                       -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
-#                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonBestModelsNew
-
+                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonnuFe
 
 
 
