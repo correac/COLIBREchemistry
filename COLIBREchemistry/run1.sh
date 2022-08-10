@@ -6,14 +6,12 @@
 #                       -o /Users/camila/SimulationData/cosma/SIMULATION_RUNS/Chemistry_Plots
 
 python colibre_chemistry.py \
-                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu2 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu2_Fe05 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu3 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_03_COLIBRE/L025N188_NewYields_SNIILinlo8hi40_DTDExptau2nu3_Fe05 \
-                       -n nu2Fe1O1Mg1 nu2Fe05Mg1O1 nu3Fe1O1Mg1 nu3Fe05O1Mg1 \
-                       -c halo_0036.properties halo_0036.properties halo_0036.properties halo_0036.properties \
-                       -s colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 colibre_0036.hdf5 \
-                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_05_comparison/L25ComparisonnuFe
+                       -d /cosma7/data/dp004/dc-chai1/nearly_final_model/I54_L25N188_I37_SEED1P4_BH_I50_CONST_BOOST_0P3 \
+                          /cosma7/data/dp004/dc-chai1/nearly_final_model/I57_L25N188_I37_SEED1P4_BH_I55_CONST_BOOST_0P3_TMAX1E8 \
+                       -n I54L25N188 I57L25N188 \
+                       -c halo_2729.properties halo_2729.properties \
+                       -s colibre_2729.hdf5 colibre_2729.hdf5 \
+                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_06_comparison/L25ComparisonI54I57
 
 
 

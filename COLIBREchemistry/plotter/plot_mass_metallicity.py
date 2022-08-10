@@ -730,32 +730,37 @@ def plot_gallazzi(element):
     Fe_over_H_Gr96 = 7.50
     Mg_over_H_Gr96 = 7.58
 
+    O_over_H_Gr91 = 8.91
+    Fe_over_H_Gr91 = 7.67
+    Mg_over_H_Gr91 = 7.58
+
     O_over_H_Asplund09 = 8.69
     Fe_over_H_Asplund09 = 7.50
     Mg_over_H_Asplund09 = 7.6
 
-    O_over_Fe_solar_Gr96 = O_over_H_Gr96 - Fe_over_H_Gr96
-    Mg_over_Fe_solar_Gr96 = Mg_over_H_Gr96 - Fe_over_H_Gr96
+    O_over_Fe_solar_Gr91 = O_over_H_Gr91 - Fe_over_H_Gr91
+    Mg_over_Fe_solar_Gr91 = Mg_over_H_Gr91 - Fe_over_H_Gr91
+
     O_over_Fe_solar_Asplund09 = O_over_H_Asplund09 - Fe_over_H_Asplund09
     Mg_over_Fe_solar_Asplund09 = Mg_over_H_Asplund09 - Fe_over_H_Asplund09
 
     if element == 'O':
-        mH_in_cgs = 1
-        mFe_in_cgs = 55.845  # * mp (times proton mass)
-        mO_in_cgs = 15.999  # * mp
+        #mH_in_cgs = 1
+        #mFe_in_cgs = 55.845  # * mp (times proton mass)
+        #mO_in_cgs = 15.999  # * mp
 
-        O_Fe_Sun = O_over_H_Asplund09 - Fe_over_H_Asplund09 - np.log10(mFe_in_cgs / mO_in_cgs)
+        #O_Fe_Sun = O_over_H_Asplund09 - Fe_over_H_Asplund09 - np.log10(mFe_in_cgs / mO_in_cgs)
 
         # From Grevesse, Noels & Sauval (1996):
-        O_Fe_Sun_Gr96 = np.log10(0.0096 / 0.0016)
+        #O_Fe_Sun_Gr96 = np.log10(0.0096 / 0.0016)
 
-        correction = O_Fe_Sun_Gr96 - O_Fe_Sun
+        correction = O_over_Fe_solar_Gr91 - O_over_Fe_solar_Asplund09
 
         #correction = O_over_Fe_solar_Gr96 - O_over_Fe_solar_Asplund09
 
     if element == 'Mg':
 
-        correction = Mg_over_Fe_solar_Gr96 - Mg_over_Fe_solar_Asplund09
+        correction = Mg_over_Fe_solar_Gr91 - Mg_over_Fe_solar_Asplund09
 
     Z_median = (raw[:, 1] + correction)
     Z_lo = (raw[:, 2] + correction)
