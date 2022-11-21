@@ -1,17 +1,17 @@
 #!/bin/bash
 
-#python colibre_chemistry.py \
-#                       -d /Users/camila/SimulationData/cosma/SIMULATION_RUNS \
-#                       -n Testrun -c halo_0036.properties -s colibre_0036.hdf5 \
-#                       -o /Users/camila/SimulationData/cosma/SIMULATION_RUNS/Chemistry_Plots
-
 python colibre_chemistry.py \
-                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_08_COLIBRE/L025N188 \
-                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_08_COLIBRE/L025N188_SNIa1e6 \
-                       -n I75 I75SNIa1e6 \
-                       -c halo_0036.properties halo_0036.properties \
-                       -s colibre_0036.hdf5 colibre_0036.hdf5 \
-                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_08_comparison/L25Comparison
+                       -d /Users/camila/SimulationData/cosma/SIMULATION_RUNS/I54_L25N188_I37_SEED1P4_BH_I50_CONST_BOOST_0P3 \
+                       -n Testrun -c halo_2729.properties -s colibre_2729.hdf5 \
+                       -o /Users/camila/SimulationData/cosma/SIMULATION_RUNS/Chemistry_Plots
+
+#python colibre_chemistry.py \
+#                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_08_COLIBRE/L025N188 \
+#                          /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_08_COLIBRE/L025N188_SNIa1e6 \
+#                       -n I75 I75SNIa1e6 \
+#                       -c halo_0036.properties halo_0036.properties \
+#                       -s colibre_0036.hdf5 colibre_0036.hdf5 \
+#                       -o /cosma/home/www/swift.dur.ac.uk/public_html/COLIBREPlots/ccorrea/AbundancePlots/2022_08_comparison/L25Comparison
 
 #python colibre_chemistry.py \
 #                       -d /cosma7/data/dp004/dc-corr1/SIMULATION_RUNS/2022_05_COLIBRE/L025N188_NewYields_SNIILin8hi40_DTDExp2nu1p6_Fe15O1Mg1 \

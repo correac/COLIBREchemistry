@@ -310,7 +310,7 @@ class SimInfo(ParticleIds):
         #
         # return gas_data, stars_data
 
-    def calculate_morphology(self, halo_index: int):
+    def calculate_morphology(self):
         """
         Computes morphological properties of a given halo
 
@@ -327,23 +327,21 @@ class SimInfo(ParticleIds):
         """
 
         # Calculate kappa and specific angular momentum
-        kappa, specific_momentum, momentum, part_data = calculate_kappa_co(
+        self.kappa  = calculate_kappa_co(
             halo_data=self.halo_data,
-            partsDATA=part_data,
-            box_size=self.boxSize,
-            halo_index=halo_index,
+            box_size=self.boxSize
         )
 
         # Calculate axis ratios
-        axis_1, axis_2, axis_3 = AxialRatios(part_data[:, :3], part_data[:, 3])
-        morphology = np.array([kappa, specific_momentum, axis_1, axis_2, axis_3])
+        #axis_1, axis_2, axis_3 = AxialRatios(part_data[:, :3], part_data[:, 3])
+        #morphology = np.array([kappa, specific_momentum, axis_1, axis_2, axis_3])
 
         # Store morphology parameters in halo data and continue
-        if parttype == 4:
-            self.halo_data.add_stellar_morphology(morphology, halo_index)
-        elif parttype == 0:
-            self.halo_data.add_gas_morphology(morphology, halo_index)
-        return momentum, part_data
+        #if parttype == 4:
+        #    self.halo_data.add_stellar_morphology(morphology, halo_index)
+        #elif parttype == 0:
+        #    self.halo_data.add_gas_morphology(morphology, halo_index)
+        #return momentum, part_data
 
     def write_galaxy_data_to_file(self, output_path: str) -> None:
         """

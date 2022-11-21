@@ -36,6 +36,12 @@ class GasParticleData:
         self.densities = sim_info.snapshot.gas.densities[mask_gas].value * (sim_info.a * sim_info.to_Msun_units / sim_info.to_kpc_units) ** 3
         self.metal_mass_fractions = sim_info.snapshot.gas.metal_mass_fractions[mask_gas].value / sim_info.Zsolar
 
+        self.oxygen = sim_info.snapshot.gas.element_mass_fractions.oxygen[mask_gas].value
+        self.hydrogen = sim_info.snapshot.gas.element_mass_fractions.hydrogen[mask_gas].value
+        self.carbon = sim_info.snapshot.gas.element_mass_fractions.carbon[mask_gas].value
+        self.nitrogen = sim_info.snapshot.gas.element_mass_fractions.nitrogen[mask_gas].value
+
+
 
 class StarParticleData:
     """

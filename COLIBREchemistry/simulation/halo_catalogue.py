@@ -99,3 +99,5 @@ class HaloCatalogue:
         self.vxminpot = catalogue.velocities.vxcminpot.to("km/s").value[mask]
         self.vyminpot = catalogue.velocities.vycminpot.to("km/s").value[mask]
         self.vzminpot = catalogue.velocities.vzcminpot.to("km/s").value[mask]
+
+        self.kappa = None
