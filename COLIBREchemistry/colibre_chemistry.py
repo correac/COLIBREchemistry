@@ -13,7 +13,7 @@ from plotter.plot_sfh import read_SFH, plot_SFH
 from plotter.galactic_abundances import compute_galactic_abundances, plot_galactic_abundance_relations
 from plotter import html
 from time import time
-
+from plotter.test import test
 
 def main(config: ArgumentParser):
 
@@ -53,9 +53,9 @@ def main(config: ArgumentParser):
             html.add_metadata_to_web(web, sim_info.snapshot)
 
         # Load luminosity tables
-        simulation_data.SimInfo.load_photometry_grid()
+        # simulation_data.SimInfo.load_photometry_grid()
 
-        galactic_data = compute_galactic_abundances(sim_info, galactic_data)
+        # galactic_data = compute_galactic_abundances(sim_info, galactic_data)
 
         #metallicity_data = compute_metallicity_relation(sim_info, metallicity_data)
 
@@ -64,6 +64,7 @@ def main(config: ArgumentParser):
         #SNIa_data = read_SNIa_rates(sim_info, SNIa_data)
 
         #SFH_data = read_SFH(sim_info, SFH_data)
+        test(sim_info)
 
 
     #if len(output_name_list) > 1: compare_stellar_abundances(abundance_data, output_name_list, config.output_directory)
@@ -74,9 +75,9 @@ def main(config: ArgumentParser):
 
     #plot_SFH(SFH_data, output_name_list, config.output_directory)
 
-    plot_galactic_abundance_relations(galactic_data, output_name_list, config.output_directory)
-
-    loadAbundancePlots(web, config.output_directory, output_name_list)
+    # plot_galactic_abundance_relations(galactic_data, output_name_list, config.output_directory)
+    #
+    # loadAbundancePlots(web, config.output_directory, output_name_list)
 
     # Finish and output html file
     html.render_web(web, config.output_directory)
