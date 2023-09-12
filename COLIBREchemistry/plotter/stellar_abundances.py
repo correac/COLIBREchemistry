@@ -98,7 +98,7 @@ def compute_ratios(Hydrogen_fraction, Magnesium_fraction, Oxygen_fraction, Iron_
 
 def calculate_abundaces_from_MW_type_galaxies(sim_info):
 
-    select_MW_mass = np.where((sim_info.halo_data.log10_stellar_mass >= 10.5) &
+    select_MW_mass = np.where((sim_info.halo_data.log10_stellar_mass >= 10.0) &
                               (sim_info.halo_data.log10_stellar_mass <= 11.0))[0]
     select_centrals = np.where(sim_info.halo_data.type[select_MW_mass] == 10)[0]
 

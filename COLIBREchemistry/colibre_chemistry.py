@@ -3,6 +3,7 @@ Welcome to COLIBRE chemistry, yet another plotting pipeline for the COLIBRE simu
 """
 
 from argumentparser import ArgumentParser
+from plotter.abundance_plots import plot_stellar_abundances_radial_dependence
 from plotter.stellar_abundances import plot_stellar_abundances
 from plotter.compare_abundances import compare_stellar_abundances, compare_mass_metallicity_relations
 from plotter.plot_mass_metallicity import compute_metallicity_relation
@@ -53,18 +54,19 @@ def main(config: ArgumentParser):
             html.add_metadata_to_web(web, sim_info.snapshot)
 
         # Load luminosity tables
-        # simulation_data.SimInfo.load_photometry_grid()
+        simulation_data.SimInfo.load_photometry_grid()
 
-        # galactic_data = compute_galactic_abundances(sim_info, galactic_data)
+        #galactic_data = compute_galactic_abundances(sim_info, galactic_data)
 
         #metallicity_data = compute_metallicity_relation(sim_info, metallicity_data)
 
-        #abundance_data = plot_stellar_abundances(sim_info, config.output_directory, abundance_data)
+        abundance_data = plot_stellar_abundances_radial_dependence(sim_info, config.output_directory, abundance_data)
 
         #SNIa_data = read_SNIa_rates(sim_info, SNIa_data)
 
         #SFH_data = read_SFH(sim_info, SFH_data)
-        test(sim_info)
+        
+        #test(sim_info)
 
 
     #if len(output_name_list) > 1: compare_stellar_abundances(abundance_data, output_name_list, config.output_directory)
@@ -76,8 +78,8 @@ def main(config: ArgumentParser):
     #plot_SFH(SFH_data, output_name_list, config.output_directory)
 
     # plot_galactic_abundance_relations(galactic_data, output_name_list, config.output_directory)
-    #
-    # loadAbundancePlots(web, config.output_directory, output_name_list)
+
+    loadAbundancePlots(web, config.output_directory, output_name_list)
 
     # Finish and output html file
     html.render_web(web, config.output_directory)
